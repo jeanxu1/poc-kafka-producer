@@ -1,0 +1,36 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics, prometheus
+server:
+  port: 8087
+spring.kafka:
+  bootstrap-servers: "localhost:9093" #set this to the broker URL
+  properties:
+    schema.registry.url: "http://localhost:8081"
+    auto:
+      register:
+        schemas: false
+    security:
+      protocol: SASL_SSL #set this to SASL_PLAINTEXT if SSL is not enabled for brokers
+    sasl:
+      mechanism: PLAIN
+      jaas:
+        config: org.apache.kafka.common.security.plain.PlainLoginModule required username="${kafka_username}" password="${kafka_password}";
+  producer:
+    key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
+topic-name: product
+---
+spring:
+  profiles: plain
+  kafa:
+    producer:
+      value-serializer: "org.apache.kafka.common.serialization.StringSerializer"
+topic-name: product-plain
+---
+spring:
+  profiles: avro
+  kafka:
+    producer:
+      value-serializer: "io.confluent.kafka.serializers.KafkaAvroSerializer"

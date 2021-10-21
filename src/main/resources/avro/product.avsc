@@ -1,0 +1,45 @@
+{
+  "type": "record",
+  "name": "Product",
+  "namespace": "com.lulu.bootstrap.kafka.avro.schema",
+  "doc": "Avro Schema for Product",
+  "fields": [
+    {
+      "name": "productId",
+      "type": "int"
+    },
+    {
+      "name": "productName",
+      "type": "string"
+    },
+    {
+      "name": "productDescription",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "colors",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "Color",
+          "fields": [
+            {
+              "name": "colorId",
+              "type": "int"
+            },
+            {
+              "name": "colorName",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "default": []
+    }
+  ]
+}
